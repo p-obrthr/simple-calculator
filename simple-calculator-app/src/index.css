@@ -1,4 +1,8 @@
-.root {
+:root {
+	--primary: #eee;
+	--secondary:#9fd3c7;
+	--tertiary:#142d4c;
+	--quaternary:#293133;
 }
 
 * {
@@ -9,7 +13,7 @@
 }
 
 body {
-	background-color: #eee;
+	background-color: var(--primary);
 }
 
 .App {
@@ -31,7 +35,7 @@ body {
 .display {
 	padding: 16px;
 	text-align: right;
-	background-color: #142d4c;
+	background-color: var(--tertiary);
 	color: #ffffff;
 	font-size: 24px;
 	font-weight: 300;
@@ -63,7 +67,8 @@ button:hover {
 
 .operators button {
 	flex: 1 1 0%;
-	background-color:#9fd3c7;
+	background-color: var(--secondary);
+	color: var(--quaternary);
 	font-weight: 700;
 }
 
@@ -75,5 +80,5 @@ button:hover {
 .digits button {
 	flex: 1 1 33.33%;
 	max-width: 33.333%;
-	background-color: #293133;
+	background-color: var(--quaternary);
 }
