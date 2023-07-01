@@ -3,6 +3,7 @@
 	--secondary:#9fd3c7;
 	--tertiary:#142d4c;
 	--quaternary:#293133;
+	--quinary:#96a5a2;
 }
 
 * {
@@ -68,6 +69,17 @@ button:hover {
 .operators button {
 	flex: 1 1 0%;
 	background-color: var(--secondary);
+	color: var(--quaternary);
+	font-weight: 700;
+}
+
+.specials {
+	display: flex;
+}
+
+.specials button {
+	flex: 1 1 0%;
+	background-color: var(--quinary);
 	color: var(--quaternary);
 	font-weight: 700;
 }
