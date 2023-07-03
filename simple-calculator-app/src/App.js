@@ -15,6 +15,20 @@ function App() {
 			return;
 		}
 
+		if (value === '²') {
+			const squaredValue = (calc * calc).toString();
+			setCalc(squaredValue);
+			setResult(eval(squaredValue.toString()));
+			return;
+		}
+
+		if (value === '√') {
+			const rootedValue = Math.sqrt(calc).toString();
+			setCalc(rootedValue);
+			setResult(eval(rootedValue.toString()));
+			return;
+		}
+
 
 		setCalc(calc + value);
 
@@ -83,8 +97,8 @@ function App() {
 
 				<div className = "specials">
 					<button onClick={() => updateCalc(((Math.PI).toFixed(5)).toString())}>π</button>
-					<button>²</button>
-					<button>√</button>
+					<button onClick={() => updateCalc('²')}>²</button>
+					<button onClick={() => updateCalc('√')}>√</button>
 				</div>
 
 				<div className="digits">
