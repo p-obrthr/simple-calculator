@@ -3,6 +3,7 @@ import { useState } from 'react';
 function App() {
 	const [calc, setCalc] = useState("");
 	const [result, setResult] = useState("");
+	const [memory, setMemory] = useState(0);
 
 
 	const ops = ['+', '-', '*', '/', '.'];
@@ -73,6 +74,18 @@ function App() {
 			return;
 		}
 		setCalc("");
+		setResult("");
+	}
+
+	const saveMemory = () => {
+		if (calc === '') {
+			return;
+		}
+		setMemory(eval(calc).toString());
+	}
+
+	const clearMemory = () => {
+		setMemory(0);
 	}
 
 
@@ -95,10 +108,13 @@ function App() {
 
 				</div>
 
+
 				<div className = "specials">
 					<button onClick={() => updateCalc(((Math.PI).toFixed(5)).toString())}>π</button>
 					<button onClick={() => updateCalc('²')}>²</button>
 					<button onClick={() => updateCalc('√')}>√</button>
+					<button onClick={() => memory === 0 ? saveMemory(): updateCalc(memory) }>M</button>
+					<button onClick={ clearMemory }>MR</button>
 				</div>
 
 				<div className="digits">
