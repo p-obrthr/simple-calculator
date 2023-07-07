@@ -1,12 +1,15 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 
 function App() {
 	const [calc, setCalc] = useState("");
 	const [result, setResult] = useState("");
 	const [memory, setMemory] = useState(0);
 
+	const bracketsRef = useRef(0);
 
 	const ops = ['+', '-', '*', '/', '.'];
+	const sp = ['²', '√', '%', 'x!'];
+	const bra = ['(', ')'];
 
 	const updateCalc = value => {
 		if(
@@ -16,24 +19,59 @@ function App() {
 			return;
 		}
 
-		if (value === '²') {
-			const squaredValue = (calc * calc).toString();
-			setCalc(squaredValue);
-			setResult(eval(squaredValue.toString()));
+		if (sp.includes(value)) {
+			
+			switch (value) {
+				case '²':
+					setCalc((prevCalc) => {
+						const calculated = (prevCalc*prevCalc).toString();
+						setResult(calculated);
+						return calculated;
+					});
+					break;
+				case '√':
+					setCalc((prevCalc) => {
+						const calculated = (Math.sqrt(prevCalc).toFixed(5)).toString();
+						setResult(calculated);
+						return calculated;
+					});
+					break;
+				case '%':
+					setCalc((prevCalc) => {
+						const calculated = (prevCalc/100);
+						setResult(calculated);
+						return calculated;
+					});
+					break;
+				case 'x!':
+					setCalc((prevCalc) => {
+							if (prevCalc === 0 || prevCalc === 1) {
+								return 1;
+							}
+							let result = 1;
+							for (let i = 2; i <= prevCalc; i++) {
+								result *= i;
+							}
+							setResult(result);
+							return result;
+					});
+			}
+
 			return;
 		}
 
-		if (value === '√') {
-			const rootedValue = Math.sqrt(calc).toString();
-			setCalc(rootedValue);
-			setResult(eval(rootedValue.toString()));
-			return;
+		if (bra.includes(value)) {
+			if (value === '(') {
+				bracketsRef.current += 1;
+			} else {
+				bracketsRef.current -= 1;
+			}
 		}
 
 
 		setCalc(calc + value);
 
-		if (!ops.includes(value)) {
+		if (!ops.includes(value) && bracketsRef.current === 0) {
 			setResult(eval(calc + value).toString());
 		}
 	
@@ -56,7 +94,11 @@ function App() {
 	}
 
 	const calculate = () => {
+		if (calc === '') {
+			return;
+		}
 		setCalc(eval(calc).toString());
+		setResult("");
 	}
 
 	const deleteLast = () => {
@@ -113,8 +155,19 @@ function App() {
 					<button onClick={() => updateCalc(((Math.PI).toFixed(5)).toString())}>π</button>
 					<button onClick={() => updateCalc('²')}>²</button>
 					<button onClick={() => updateCalc('√')}>√</button>
+					<button onClick={() => updateCalc('%')}>%</button>
+
 					<button onClick={() => memory === 0 ? saveMemory(): updateCalc(memory) }>M</button>
 					<button onClick={ clearMemory }>MR</button>
+				</div>
+
+				<div className = "others">
+					<button onClick={() => updateCalc('(')}>(</button>
+					<button onClick={() => updateCalc(')')}>)</button>
+					<button onClick={() => updateCalc('x!')}>x!</button>
+					<button>sin</button>
+					<button>cos</button>
+					<button>tan</button>
 				</div>
 
 				<div className="digits">
