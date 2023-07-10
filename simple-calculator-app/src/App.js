@@ -13,8 +13,8 @@ function App() {
 
 	const updateCalc = value => {
 		if(
-			ops.includes(value) && calc === '' ||
-			ops.includes(value) && ops.includes(calc.slice(-1))
+			(ops.includes(value) && calc === '') ||
+			(ops.includes(value) && ops.includes(calc.slice(-1)))
 		) {
 			return;
 		}
@@ -55,6 +55,9 @@ function App() {
 							setResult(result);
 							return result;
 					});
+					break;
+				default:
+					break;
 			}
 
 			return;
@@ -93,8 +96,36 @@ function App() {
 		
 	}
 
-	const calculate = () => {
+	const trig = sub => {
 		if (calc === '') {
+			return;
+		}
+		const angleInRadians = degreesToRadians(parseFloat(calc));
+		switch(sub) {
+			case 'sin':
+				setCalc(Math.sin(angleInRadians));
+				setResult(Math.sin(angleInRadians).toString());
+				break;
+			case 'cos':
+				setCalc(Math.cos(angleInRadians));
+				setResult(Math.cos(angleInRadians).toString());
+				break;
+			case 'tan':
+				setCalc(Math.tan(angleInRadians));
+				setResult(Math.tan(angleInRadians).toString());
+				break;
+			default:
+				break;
+		}
+
+	}
+
+	const degreesToRadians = degrees => {
+		return degrees * (Math.PI / 180);
+	};
+
+	const calculate = () => {
+		if (calc === '' || bracketsRef.current !== 0) {
 			return;
 		}
 		setCalc(eval(calc).toString());
@@ -165,9 +196,9 @@ function App() {
 					<button onClick={() => updateCalc('(')}>(</button>
 					<button onClick={() => updateCalc(')')}>)</button>
 					<button onClick={() => updateCalc('x!')}>x!</button>
-					<button>sin</button>
-					<button>cos</button>
-					<button>tan</button>
+					<button onClick={() => trig('sin')}>sin</button>
+					<button onClick={() => trig('cos')}>cos</button>
+					<button onClick={() => trig('tan')}>tan</button>
 				</div>
 
 				<div className="digits">
